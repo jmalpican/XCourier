@@ -18,46 +18,44 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnImgEncender"
-        android:layout_marginLeft="58dp"
-        android:layout_marginStart="58dp"
         android:layout_marginTop="22dp"
-        android:src="@mipmap/ico_encendido"
+        android:src="@drawable/sun"
         android:layout_below="@+id/lblTitulo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:onClick="iniDia"
         android:adjustViewBounds="false"
         android:background="#00ffffff"
         android:layout_alignParentTop="false"
-        android:layout_alignParentBottom="false" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/lblNroRemiAsig"
+        android:layout_alignEnd="@+id/lblNroRemiAsig"
+        android:scaleType="centerCrop" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/btnImgApagado"
-        android:layout_marginLeft="38dp"
-        android:layout_marginStart="38dp"
-        android:src="@mipmap/ic_apagado"
-        android:layout_alignTop="@+id/btnImgEncender"
-        android:layout_toRightOf="@+id/btnImgEncender"
-        android:layout_toEndOf="@+id/btnImgEncender"
+        android:src="@mipmap/sun_set"
         android:background="#00ffffff"
         android:onClick="finDia"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="false" />
+        android:scaleType="centerCrop"
+        android:layout_alignTop="@+id/btnImgEncender"
+        android:layout_toRightOf="@+id/btnImgEncender"
+        android:layout_marginLeft="73dp"
+        android:layout_marginStart="73dp"
+        android:layout_above="@+id/lblNroRemiAsig" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remitos asignados"
         android:id="@+id/lblNroRemiAsig"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="83dp"
+        android:padding="5dp"
         android:layout_below="@+id/btnImgEncender"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:padding="5dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,25 +79,14 @@
         android:layout_alignRight="@+id/lblFecHorIni"
         android:layout_alignEnd="@+id/lblFecHorIni" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Remitos Off Line"
-        android:id="@+id/lblRemiOffLine"
-        android:padding="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/lblFecHorFin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgUser"
         android:padding="5dp"
-        android:src="@mipmap/ic_user"
+        android:src="@mipmap/suitcase"
         android:baselineAlignBottom="false"
-        android:layout_above="@+id/linearLayout"
+        android:layout_below="@+id/lblFecHorFin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -108,8 +95,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/lblUser"
         android:layout_alignBottom="@+id/imgUser"
-        android:layout_alignLeft="@+id/btnImgEncender"
-        android:layout_alignStart="@+id/btnImgEncender" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -146,10 +133,26 @@
         android:id="@+id/lblRemiOffLineValue"
         android:padding="5dp"
         android:minWidth="50dp"
-        android:layout_alignTop="@+id/lblRemiOffLine"
         android:layout_alignLeft="@+id/lblFecHorFinValue"
-        android:layout_alignStart="@+id/lblFecHorFinValue" />
+        android:layout_alignStart="@+id/lblFecHorFinValue"
+        android:layout_below="@+id/lblFecHorFin" />
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/latitudeTextView"
+        android:layout_above="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/lblRemiOffLineValue"
+        android:layout_toStartOf="@+id/lblRemiOffLineValue" />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/longitudeTextView"
+        android:layout_below="@+id/latitudeTextView"
+        android:layout_toRightOf="@+id/latitudeTextView"
+        android:layout_toEndOf="@+id/latitudeTextView" />
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -171,6 +174,8 @@
             android:layout_gravity="right" />
 
        </LinearLayout>
+
+
 
 
 </RelativeLayout>

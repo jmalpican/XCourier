@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+  <TextView 
+      android:id="@+id/TextFirst"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:text="First"
+      android:textSize="12dp" />
+	
+    <TextView 
+      android:id="@+id/TextSecond"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="4"
+      android:text="Second"
+        android:textSize="12dp" />
+      <TextView 
+      android:id="@+id/TextThird"
+      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      android:layout_weight="2"
+      android:text="Third"
+          android:textSize="12dp" />
+
+    <ImageButton
+        android:layout_height="25dp"
+        android:layout_width="0dp"
+        android:id="@+id/BtnMapa"
+        android:layout_weight="1"
+        android:src="@drawable/map"
+        android:onClick="irDetalleRemito" />
+
+    <ImageButton
+        android:layout_height="25dp"
+        android:layout_width="0dp"
+        android:id="@+id/BtnGrabar"
+        android:layout_weight="1"
+        android:src="@drawable/save"
+        android:onClick="irDetalleRemito" />
+</LinearLayout>

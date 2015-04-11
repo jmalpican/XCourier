@@ -4,5 +4,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="format_date">dd-MM-yyyy hh:mm a</string>
+    <string name="title_activity_maps_activity2">Map</string>
 
 </resources>

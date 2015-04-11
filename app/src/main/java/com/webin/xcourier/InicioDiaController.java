@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
+import org.apache.http.Header;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
@@ -35,7 +36,10 @@ public class InicioDiaController extends ActionBarActivity {
     private TextView lblFecHorIniValue;
     private TextView lblFecHorFinValue;
     private TextView lblRemiOffLineValue;
-
+    private TextView lblLongitude;
+    private TextView lblLatitude;
+    private double latitud;
+    private double altitud;
     private Resources res;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +61,8 @@ public class InicioDiaController extends ActionBarActivity {
         lblFecHorIniValue = (TextView)findViewById(R.id.lblFecHorIniValue);
         lblFecHorFinValue = (TextView)findViewById(R.id.lblFecHorFinValue);
         lblRemiOffLineValue = (TextView)findViewById(R.id.lblRemiOffLineValue);
-
+        lblLatitude  = (TextView)findViewById(R.id.latitudeTextView);
+        lblLongitude = (TextView)findViewById(R.id.longitudeTextView);
     }
 
 
@@ -83,23 +88,57 @@ public class InicioDiaController extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    void captureGPS()
+    {
+        Toast.makeText(getApplicationContext(), "Init GPS", Toast.LENGTH_LONG).show();
+
+        GPSMaps gps = new GPSMaps(this);
+
+        // check if GPS enabled
+        if(gps.canGetLocation()){
+
+            latitud = gps.getLatitude();
+            altitud= gps.getLongitude();
+
+            // \n is for new line
+            Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitud + "\nLong: " + altitud, Toast.LENGTH_LONG).show();
+        }else{
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
+
+
+
+    }
     public void iniDia(View view){
 
         String urlString ="";
-        try {
-            urlString = URLEncoder.encode("http://190.102.134.78/COURIER_WCF/Xcourier.svc/rest/DayEndInit?usr=rfelix&activity=0&gpsLat=4.6778290000&gpsAlti=-74.0523374000&operation=0", "UTF-8");
+        captureGPS();
 
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
-        }
+
+        urlString = "http://190.102.134.78/COURIER_WCF/Xcourier.svc/rest/DayEndInit?usr=rfelix&activity=0&gpsLat="+ latitud +"&gpsAlti="+ altitud +"&operation=0";
+
+
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(urlString, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(JSONObject jsonObject) {
-                Toast.makeText(getApplicationContext(), "Success!", Toast.LENGTH_LONG).show();
-                Log.d("BookFinder", jsonObject.toString());
+                       @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response){
+                Toast.makeText(getApplicationContext(),"Conectando...",Toast.LENGTH_LONG).show();
+
+                if(statusCode==200)
+                {
+                    String str = new String(response);
+                    str=str.replace("\"","");
+                    Toast.makeText(getApplicationContext(), "Actividad: " + str, Toast.LENGTH_LONG).show();
+                    lblRemiOffLineValue.setText(str);
+                    lblLatitude.setText(""+ latitud);
+                    lblLongitude.setText(""+ altitud);
+                }
+
             }
+
             @Override
             public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
                 Toast.makeText(getApplicationContext(), "Error: "+ statusCode + " "+throwable.getMessage(), Toast.LENGTH_LONG).show();
@@ -107,13 +146,45 @@ public class InicioDiaController extends ActionBarActivity {
             }
         });
 
-        lblNroRemiAsigValue.setText("69");
+        lblNroRemiAsigValue.setText("75");
         lblFecHorIniValue.setText(new SimpleDateFormat(res.getString(R.string.format_date)).format(new Date()));
-        lblUser.setText("Jonathan Malpica Núñez");
-        lblRemiOffLineValue.setText("0");
+        lblUser.setText("Felix Ricardo");
+
     }
 
     public void finDia(View view){
+        String actividad = lblRemiOffLineValue.getText().toString();
+        String urlString ="";
+        captureGPS();
+
+
+        urlString = "http://190.102.134.78/COURIER_WCF/Xcourier.svc/rest/DayEndInit?usr=rfelix&activity=" + actividad + "&gpsLat="+ latitud +"&gpsAlti="+ altitud +"&operation=1";
+
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(urlString, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] response){
+                Toast.makeText(getApplicationContext(),"Conectando...",Toast.LENGTH_LONG).show();
+
+                if(statusCode==200)
+                {
+                    String str = new String(response);
+                    str=str.replace("\"","");
+                    Toast.makeText(getApplicationContext(), "Fin de Dia: " + str, Toast.LENGTH_LONG).show();
+                    lblRemiOffLineValue.setText(str);
+                    lblLatitude.setText(""+ latitud);
+                    lblLongitude.setText(""+ altitud);
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                Toast.makeText(getApplicationContext(), "Error: "+ statusCode + " "+throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("BookFinder", statusCode + " "+throwable.getMessage());
+            }
+        });
         lblFecHorFinValue.setText(new SimpleDateFormat(res.getString(R.string.format_date)).format(new Date()));
 
     }
